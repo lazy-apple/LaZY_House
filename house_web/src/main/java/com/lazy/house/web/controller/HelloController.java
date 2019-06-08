@@ -29,4 +29,12 @@ public class HelloController {
     public String index(){
         return "homepage/index";
     }
+
+    @RequestMapping("helloerror")
+    public String helloError(ModelMap modelMap){
+        if(true){
+            throw new IllegalArgumentException();
+        }
+        return "hello";
+    }
 }
