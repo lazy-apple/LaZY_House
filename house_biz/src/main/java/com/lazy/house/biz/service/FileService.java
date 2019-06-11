@@ -38,6 +38,7 @@ public class FileService {
 				}
 			}
 		});
+		System.out.println("======================"+paths);
 		return paths;
 	}
 	
