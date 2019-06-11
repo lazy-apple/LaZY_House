@@ -88,7 +88,7 @@ public class UserController {
         } else {
             HttpSession session = req.getSession(true);
             session.setAttribute(CommonConstants.USER_ATTRIBUTE, user);
-            session.setAttribute(CommonConstants.PLAIN_USER_ATTRIBUTE, user);
+//            session.setAttribute(CommonConstants.PLAIN_USER_ATTRIBUTE, user);
             return StringUtils.isNoneBlank(target) ? "redirect:" + target : "redirect:/index";
         }
     }
