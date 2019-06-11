@@ -102,6 +102,11 @@ public class MailService {
     resetCache.invalidate(key);
   }
 
+  /***
+   * 激活用户
+   * @param key
+   * @return
+   */
   public boolean enable(String key) {
     String email = registerCache.getIfPresent(key);
     if (StringUtils.isBlank(email)) {

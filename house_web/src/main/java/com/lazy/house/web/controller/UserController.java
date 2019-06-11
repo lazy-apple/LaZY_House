@@ -47,6 +47,11 @@ public class UserController {
         }
     }
 
+    /***
+     * 用户激活
+     * @param key
+     * @return
+     */
     @RequestMapping("accounts/verify")
     public String verify(String key) {
         boolean result = userService.enable(key);
