@@ -44,7 +44,7 @@
                         <div class="account-profile">
                             <div class="row">
                                 <div class="col-md-3 col-sm-3">
-                                    <img alt="" class="image" src="${(loginUser.avatar)!}">
+                                    <img alt="" class="image" src="../../../static/photo/${(loginUser.avatar)!}">
                                 </div>
                                 <div class="col-md-9 col-sm-9">
                                     <form role="form" id="form-account-profile" method="post" action="/accounts/profile">

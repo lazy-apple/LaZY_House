@@ -30,15 +30,16 @@ public class FileService {
 			File localFile = null;
 			if (!file.isEmpty()) {
 				try {
-					localFile =  saveToLocal(file, filePath);
-					String path = StringUtils.substringAfterLast(localFile.getAbsolutePath(), filePath);
+//					localFile =  saveToLocal(file, filePath);
+					String local =  saveToLocal(file, filePath);
+					String path = StringUtils.substringAfterLast(local, filePath);
 					paths.add(path);
 				} catch (IOException e) {
 					throw new IllegalArgumentException(e);
 				}
 			}
 		});
-		System.out.println("======================"+paths);
+		System.out.println("==================image path："+paths+"======================");
 		return paths;
 	}
 	
@@ -57,14 +58,15 @@ public class FileService {
 	 * @return
 	 * @throws IOException
 	 */
-	private File saveToLocal(MultipartFile file, String filePath2) throws IOException {
+	private String saveToLocal(MultipartFile file, String filePath2) throws IOException {
 	 File newFile = new File(filePath + "/" + Instant.now().getEpochSecond() +"/"+file.getOriginalFilename());
 	 if (!newFile.exists()) {
 		 newFile.getParentFile().mkdirs();
 		 newFile.createNewFile();
 	 }
 	 Files.write(file.getBytes(), newFile);
-     return newFile;
+//     return newFile;
+     return newFile.getPath().replace("\\","/");
 	}
 
 }
