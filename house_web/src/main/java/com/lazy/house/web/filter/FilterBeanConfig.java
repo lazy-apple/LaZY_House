@@ -11,15 +11,15 @@ import java.util.List;
  * @author LaZY(李志一)
  * @create 2019-06-05 18:20
  */
-@Configuration
+//@Configuration
 public class FilterBeanConfig {
-    @Bean
-    public FilterRegistrationBean logFilter(){
-         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-         filterRegistrationBean.setFilter(new LogFilter());
-         List<String> urList = new ArrayList<>();
-         urList.add("*");
-         filterRegistrationBean.setUrlPatterns(urList);
-         return filterRegistrationBean;
-     }
+//    @Bean
+//    public FilterRegistrationBean logFilter(){
+//         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//         filterRegistrationBean.setFilter(new LogFilter());
+//         List<String> urList = new ArrayList<>();
+//         urList.add("*");
+//         filterRegistrationBean.setUrlPatterns(urList);
+//         return filterRegistrationBean;
+//     }
 }
