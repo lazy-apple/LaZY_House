@@ -2,11 +2,16 @@ package com.lazy.house.web.controller;
 
 import java.util.List;
 
+import com.lazy.house.biz.service.AgencyService;
+import com.lazy.house.biz.service.CityService;
 import com.lazy.house.biz.service.HouseService;
+import com.lazy.house.biz.service.RecommendService;
 import com.lazy.house.common.constants.CommonConstants;
 import com.lazy.house.common.constants.HouseUserType;
 import com.lazy.house.common.model.House;
+import com.lazy.house.common.model.HouseUser;
 import com.lazy.house.common.model.User;
+import com.lazy.house.common.model.UserMsg;
 import com.lazy.house.common.page.PageData;
 import com.lazy.house.common.page.PageParams;
 import com.lazy.house.common.result.ResultMsg;
@@ -26,15 +31,15 @@ public class HouseController {
 	
 	@Autowired
 	private CityService cityService;
-	
+
 	@Autowired
 	private AgencyService agencyService;
-	
+
 	@Autowired
 	private RecommendService recommendService;
-	
-	@Autowired
-	private CommentService commentService;
+//
+//	@Autowired
+//	private CommentService commentService;
 
 	/**
 	 * 1.实现分页
@@ -52,14 +57,14 @@ public class HouseController {
 	  modelMap.put("vo", query);
 	  return "house/listing";
 	}
-	
+//
 	@RequestMapping("/house/toAdd")
 	public String toAdd(ModelMap modelMap) {
 		modelMap.put("citys", cityService.getAllCitys());
 		modelMap.put("communitys", houseService.getAllCommunitys());
 		return "/house/add";
 	}
-	
+
 	@RequestMapping("/house/add")
 	public String doAdd(House house){
 		User user = UserContext.getUser();
@@ -67,7 +72,7 @@ public class HouseController {
 		houseService.addHouse(house,user);
 		return "redirect:/house/ownlist";
 	}
-	
+
 	@RequestMapping("house/ownlist")
 	public String ownlist(House house,Integer pageNum,Integer pageSize,ModelMap modelMap){
 		User user = UserContext.getUser();
@@ -77,7 +82,7 @@ public class HouseController {
 		modelMap.put("pageType", "own");
 		return "/house/ownlist";
 	}
-	
+
 	/**
 	 * 查询房屋详情
 	 * 查询关联经纪人
@@ -89,23 +94,23 @@ public class HouseController {
 		House house = houseService.queryOneHouse(id);
 	    HouseUser houseUser = houseService.getHouseUser(id);
 	    recommendService.increase(id);
-	    List<Comment> comments = commentService.getHouseComments(id,8);
+//	    List<Comment> comments = commentService.getHouseComments(id,8);
 		if (houseUser.getUserId() != null && !houseUser.getUserId().equals(0)) {
 			modelMap.put("agent", agencyService.getAgentDeail(houseUser.getUserId()));
 		}
 	    List<House> rcHouses =  recommendService.getHotHouse(CommonConstants.RECOM_SIZE);
 	    modelMap.put("recomHouses", rcHouses);
 		modelMap.put("house", house);
-		 modelMap.put("commentList", comments);
+//		 modelMap.put("commentList", comments);
 		return "/house/detail";
 	}
-	
+
 	@RequestMapping("house/leaveMsg")
 	public String houseMsg(UserMsg userMsg){
-	  houseService.addUserMsg(userMsg);
-	  return "redirect:/house/detail?id=" + userMsg.getHouseId() + ResultMsg.successMsg("留言成功").asUrlParams();
+		houseService.addUserMsg(userMsg);
+		return "redirect:/house/detail?id=" + userMsg.getHouseId() + ResultMsg.successMsg("留言成功").asUrlParams();
 	}
-	
+
 	//1.评分
 	@ResponseBody
 	@RequestMapping("house/rating")
@@ -113,8 +118,8 @@ public class HouseController {
 		houseService.updateRating(id,rating);
 		return ResultMsg.successMsg("ok");
 	}
-	
-	
+
+
 	//2.收藏
 	@ResponseBody
 	@RequestMapping("house/bookmark")
@@ -123,7 +128,7 @@ public class HouseController {
 	  houseService.bindUser2House(id, user.getId(), true);
 	  return ResultMsg.successMsg("ok");
 	}
-	
+
 	//3.删除收藏
 	@ResponseBody
 	@RequestMapping("house/unbookmark")
@@ -132,14 +137,14 @@ public class HouseController {
 	  houseService.unbindUser2House(id,user.getId(), HouseUserType.BOOKMARK);
 	  return ResultMsg.successMsg("ok");
 	}
-	
+
 	@RequestMapping(value="house/del")
 	public String delsale(Long id,String pageType){
 	   User user = UserContext.getUser();
 	   houseService.unbindUser2House(id,user.getId(),pageType.equals("own")?HouseUserType.SALE:HouseUserType.BOOKMARK);
 	   return "redirect:/house/ownlist";
 	}
-	
+
 	//4.收藏列表
 	@RequestMapping("house/bookmarked")
 	public String bookmarked(House house,Integer pageNum,Integer pageSize,ModelMap modelMap){
